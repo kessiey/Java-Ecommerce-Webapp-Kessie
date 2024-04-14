@@ -51,7 +51,7 @@ pipeline {
             artifacts: [[artifactId: 'junit', classifier: '', file: '/var/lib/jenkins/workspace/ecommerce-webapp/target/project.war', type: 'war']], 
             credentialsId: 'nexus-id', 
             groupId: 'com.project', 
-            nexusUrl: 'http://3.143.234.190:8081',  // Corrected URL
+            nexusUrl: '3.143.234.190:8081', 
             nexusVersion: 'nexus3', 
             protocol: 'http', 
             repository: 'ecommerce-webapp-snapshot', 
