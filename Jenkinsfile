@@ -23,7 +23,7 @@ pipeline {
                 ScannerHome = tool 'sonar5.0'
             }
             steps {
-                withSonarQubeEnv(credentialsId: 'sonartoken') {
+                withSonarQubeEnv(credentialsId: 'sonartoken', installationName: 'SonarQube') {
                     sh """
                     ${ScannerHome}/bin/sonar-scanner \
                     -Dsonar.projectKey=ecommerce-webapp \
