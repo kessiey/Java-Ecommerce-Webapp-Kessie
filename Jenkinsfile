@@ -14,7 +14,7 @@ pipeline {
         
         stage("Build, Test and Package") {
             steps {
-                dir('/home/yaw/devops/ci-cd/repo/Java-Ecommerce-Webapp-Kessie/project') {
+                dir('project') {
                     sh 'mvn clean test package'
                 }
             }
