@@ -46,17 +46,19 @@ pipeline {
         // }
 
         stage("Upload to Nexus") {
-            steps {
-                nexusArtifactUploader artifacts: [[artifactId: 'junit', classifier: '', file: '/var/lib/jenkins/workspace/ecommerce-webapp/target/project.war', type: 'war']], 
-                credentialsId: 'nexus-id', 
-                groupId: 'com.project', 
-                nexusUrl: 'http://localhost:8081', 
-                nexusVersion: 'nexus3', 
-                protocol: 'http', 
-                repository: 'ecommerce-webapp-snapshot', 
-                version: '0.0.1-SNAPSHOT'
-            }
-        }
+                steps {
+            nexusArtifactUploader(
+            artifacts: [[artifactId: 'junit', classifier: '', file: '/var/lib/jenkins/workspace/ecommerce-webapp/target/project.war', type: 'war']], 
+            credentialsId: 'nexus-id', 
+            groupId: 'com.project', 
+            nexusUrl: 'http://3.143.234.190:8081',  // Corrected URL
+            nexusVersion: 'nexus3', 
+            protocol: 'http', 
+            repository: 'ecommerce-webapp-snapshot', 
+            version: '0.0.1-SNAPSHOT'
+        )
+    }
+}
 
         stage("Deploy to UAT") {
             steps {
