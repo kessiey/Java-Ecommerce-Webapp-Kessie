@@ -36,7 +36,22 @@ pipeline {
             }
         }
 
-                stage("Upload to Nexus") {
+        stage('OWASP Dependency Check') {
+            steps {
+                script {
+                    def dependencyCheckHome = tool 'dependency-check'
+                    withEnv(["PATH+MAVEN=${env.WORKSPACE}/.m2"]) {
+                        sh """
+                        ${dependencyCheckHome}/bin/dependency-check.sh \
+                        --project "ecommerce-webapp" \
+                        --scan . \
+                        --out ${env.WORKSPACE}/dependency-check-report \
+                        --format ALL
+                        """
+            }
+        }
+        
+        stage("Upload to Nexus") {
             steps {
                 nexusArtifactUploader artifacts: [[artifactId: 'junit', classifier: '', file: '/var/lib/jenkins/workspace/ecommerce-webapp/target/project.war', type: 'war']], credentialsId: 'nexus-id', groupId: 'com.project', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'ecommerce-webapp-snapshot', version: '0.0.1-SNAPSHOT'
             }
