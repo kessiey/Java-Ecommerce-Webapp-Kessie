@@ -48,6 +48,8 @@ pipeline {
                         --out ${env.WORKSPACE}/dependency-check-report \
                         --format ALL
                         """
+                    }
+                }
             }
         }
         
