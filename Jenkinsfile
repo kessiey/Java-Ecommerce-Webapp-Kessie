@@ -35,22 +35,22 @@ pipeline {
         // }
 
         stage('Scan with Sonarqube') {
-            environment {
-                ScannerHome = tool 'sonar5.0'
-            }
-            steps {
-                echo "SonarQube Scanning and Analysis..."
-                script {
-                    dir('project') {
-                        def compiledClassesDir = sh(script: 'mvn help:evaluate -Dexpression=project.build.outputDirectory -q -DforceStdout', returnStdout: true).trim()
+    environment {
+        SCANNER_HOME = tool 'sonar5.0'
+    }
+    steps {
+        echo "SonarQube Scanning and Analysis..."
+        script {
+            dir('project') {
+                def compiledClassesDir = sh(script: 'mvn help:evaluate -Dexpression=project.build.outputDirectory -q -DforceStdout', returnStdout: true).trim()
 
-                        withSonarQubeEnv('sonarqube') {
-                            sh "${ScannerHome}/bin/sonar-scanner -Dsonar.projectKey=ecommerce-webapp -Dsonar.java.binaries=${compiledClassesDir}"
-                        }
-                    }
-                }  
+                withSonarQubeEnv('sonarqube') {
+                    sh "${env.SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=ecommerce-webapp -Dsonar.java.binaries=${compiledClassesDir}"
+                }
             }
-        }
+        }  
+    }
+}
 
         // stage('OWASP Dependency Check') {
         //     steps {
