@@ -8,13 +8,13 @@ pipeline {
     stages {
         stage("Git Clone") {
             steps {
-                https://github.com/kessiey/Java-Ecommerce-Webapp-Kessie.git
+                git branch: 'main', url: 'https://github.com/kessiey/Java-Ecommerce-Webapp-Kessie.git'
             }
         }
         
         stage("Build, Test and Package") {
             steps {
-                sh mvn clean test package
+                sh 'mvn clean test package'
             }
         }
     }
