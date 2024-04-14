@@ -36,6 +36,15 @@ pipeline {
             }
         }
 
+        // stage('OWASP Dependency Check') {
+        //     steps {
+        //         script {
+        //             dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'owasp-dc'
+        //             dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+        //         }
+        //     }
+        // }
+
         stage("Upload to Nexus") {
             steps {
                 nexusArtifactUploader artifacts: [[artifactId: 'junit', classifier: '', file: '/var/lib/jenkins/workspace/ecommerce-webapp/target/project.war', type: 'war']], 
