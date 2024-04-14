@@ -50,5 +50,13 @@ pipeline {
                 nexusArtifactUploader artifacts: [[artifactId: 'junit', classifier: '', file: '/var/lib/jenkins/workspace/ecommerce-webapp/target/project.war', type: 'war']], credentialsId: 'nexus-id', groupId: 'com.project', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'ecommerce-webapp-snapshot', version: '0.0.1-SNAPSHOT'
             }
         }
+
+        stage("Deploy to UAT") {
+            steps {
+                deploy adapters: [tomcat9(credentialsId: 'tomcat-credential', path: '', url: 'http://3.138.126.1:8080')], 
+                contextPath: null, 
+                war: 'target/*.war'
+            }
+        }
     }
 }
