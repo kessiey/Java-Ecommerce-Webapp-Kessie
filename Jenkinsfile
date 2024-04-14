@@ -36,14 +36,14 @@ pipeline {
             }
         }
 
-        // stage('OWASP Dependency Check') {
-        //     steps {
-        //         script {
-        //             dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'owasp-dc'
-        //             dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-        //         }
-        //     }
-        // }
+        stage('OWASP Dependency Check') {
+            steps {
+                script {
+                    dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'owasp-dc'
+                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                }
+            }
+        }
 
         stage("Upload to Nexus") {
                 steps {
