@@ -34,7 +34,6 @@ pipeline {
         //     }
         // }
 
-
         stage('Scan with Sonarqube') {
             environment {
                 ScannerHome = tool 'sonar5.0'
