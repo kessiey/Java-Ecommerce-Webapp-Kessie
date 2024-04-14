@@ -18,45 +18,24 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis') {
-        //     environment {
-        //         ScannerHome = tool 'sonar5.0'
-        //     }
-        //     steps {
-        //         withSonarQubeEnv(credentialsId: 'sonartoken', installationName: 'SonarQube') {
-        //             sh """
-        //             ${ScannerHome}/bin/sonar-scanner \
-        //             -Dsonar.projectKey=ecommerce-webapp \
-        //             -Dsonar.projectName=ecommerce-webapp \
-        //             -Dsonar.java.binaries=.
-        //             """
-        //         }
-        //     }
-        // }
-
-        stage('Scan with Sonarqube') {
+        stage('SonarQube Analysis') {
+            environment {
+                ScannerHome = tool 'sonar5.0'
+            }
             steps {
-                dir('project') {
-                    script {
-                    compiledClassesDir = sh(script: 'mvn help:evaluate -Dexpression=project.build.outputDirectory -q -DforceStdout', returnStdout: true).trim()
-                    
-                    withSonarQubeEnv(credentialsId: 'sonartoken') {
-                    sh "${ScannerHome}/bin/sonar-scanner -Dsonar.projectKey=ecommerce-webapp -Dsonar.java.binaries=." 
-                        }
-                    }
-                }  
+                withSonarQubeEnv(credentialsId: 'sonartoken', installationName: 'sonarqube') {
+                    sh """
+                    ${ScannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=ecommerce-webapp \
+                    -Dsonar.projectName=ecommerce-webapp \
+                    -Dsonar.sources=. \
+                    -Dsonar.java.binaries=${ScannerHome}/lib \
+                    -Dsonar.java.libraries=${ScannerHome}/lib/*.jar
+                    """
+                }
             }
         }
 
-        // stage('OWASP Dependency Check') {
-        //     steps {
-        //         script {
-        //             dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'owasp-dc'
-        //             dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-        //         }
-        //     }
-        // }
-        
         stage("Upload to Nexus") {
             steps {
                 nexusArtifactUploader artifacts: [[artifactId: 'junit', classifier: '', file: '/var/lib/jenkins/workspace/ecommerce-webapp/target/project.war', type: 'war']], 
