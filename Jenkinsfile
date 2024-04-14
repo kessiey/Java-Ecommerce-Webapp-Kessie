@@ -25,8 +25,10 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv(credentialsId: 'sonartoken') {
-                        sh "${ScannerHome}/bin/sonar-scanner -Dsonar.projectKey=ecommerce-webapp -Dsonar.projectName=ecommerce-webapp" \ 
-                        -Dsonar.java.binaries=target/classes"
+                    '''
+                    sh "${ScannerHome}/bin/sonar-scanner -Dsonar.projectKey=ecommerce-webapp -Dsonar.projectName=ecommerce-webapp" \ 
+                    -Dsonar.java.binaries=.
+                    '''
                     }
                 }
             }
