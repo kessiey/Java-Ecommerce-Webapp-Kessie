@@ -39,15 +39,8 @@ pipeline {
         stage('OWASP Dependency Check') {
             steps {
                 script {
-                    def dependencyCheckHome = tool 'dependency-check'
-                    withEnv(["PATH+MAVEN=${env.WORKSPACE}/.m2"]) {
-                        sh """
-                        ${dependencyCheckHome}/bin/dependency-check.sh \
-                        --project "ecommerce-webapp" \
-                        --scan . \
-                        --out ${env.WORKSPACE}/dependency-check-report \
-                        --format ALL
-                        """
+                    dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'
+                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
                     }
                 }
             }
