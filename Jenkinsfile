@@ -18,11 +18,26 @@ pipeline {
             }
         }
 
+        // stage('SonarQube Analysis') {
+        //     environment {
+        //         ScannerHome = tool 'sonar5.0'
+        //     }
+        //     steps {
+        //         withSonarQubeEnv(credentialsId: 'sonartoken', installationName: 'SonarQube') {
+        //             sh """
+        //             ${ScannerHome}/bin/sonar-scanner \
+        //             -Dsonar.projectKey=ecommerce-webapp \
+        //             -Dsonar.projectName=ecommerce-webapp \
+        //             -Dsonar.java.binaries=.
+        //             """
+        //         }
+        //     }
+        // }
+
         stage('Scan with Sonarqube') {
             environment {
                 ScannerHome = tool 'sonar5.0'
             }
-
             steps {
                 echo "SonarQube Scanning and Analysis..."
                 script {
