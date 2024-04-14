@@ -38,7 +38,7 @@ pipeline {
             steps {
                 dir('project') {
                     script {
-                    // compiledClassesDir = sh(script: 'mvn help:evaluate -Dexpression=project.build.outputDirectory -q -DforceStdout', returnStdout: true).trim()
+                    compiledClassesDir = sh(script: 'mvn help:evaluate -Dexpression=project.build.outputDirectory -q -DforceStdout', returnStdout: true).trim()
                     
                     withSonarQubeEnv(credentialsId: 'sonartoken') {
                     sh "${ScannerHome}/bin/sonar-scanner -Dsonar.projectKey=ecommerce-webapp -Dsonar.java.binaries=." 
