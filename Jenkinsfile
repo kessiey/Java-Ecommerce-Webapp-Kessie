@@ -24,7 +24,7 @@ pipeline {
             }
             steps {
                 script {
-                    withSonarQubeEnv('sonarqube') {
+                    withSonarQubeEnv(credentialsId: 'onartoken') {
                         sh "${ScannerHome}/bin/sonar-scanner -Dsonar.projectKey=ecommerce-webapp"
                     }
                 }
